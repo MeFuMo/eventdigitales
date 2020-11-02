@@ -23,7 +23,7 @@ $action_slug = $wp_query->query_vars['name'];
                    title="<?php echo esc_attr_x('Buscar:', 'label') ?>"/>
         </label>
 
-        <input type="submit" class="search-submit" value="<?php echo esc_attr_x('Buscar', 'submit button') ?>"/>
+        <input type="submit" name="search-submit" class="search-submit" value="<?php echo esc_attr_x('Buscar', 'submit button') ?>"/>
     </form>
 
 </section>
