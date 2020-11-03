@@ -18,14 +18,21 @@ function my_custom_scripts() {
 add_action( 'wp_enqueue_scripts', 'my_custom_scripts' );
 
 /*Incluimos el archivo js que llamará al ajax desde el front y lo vinculamos con la función ajax de Wordpress*/
-add_action('wp_enqueue_scripts', function() {
-    wp_enqueue_script( 'functions', plugins_url('js/functions.js',dirname(__FILE__)), array ( 'jquery' ), 1.1, true);
+add_action('wp_enqueue_scripts', 'agregar_ajax');
+
+function agregar_ajax() {
+    wp_register_script( 'functions', get_stylesheet_directory_uri().'/js/functions.js', array ( 'jquery' ), 1.1, true);
+    wp_enqueue_script( 'functions');
     wp_localize_script(
         'functions',
         'arpaAjaxData',
         array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) )
     );
-});
+}
+
+//Devolver datos a archivo js
+add_action('wp_ajax_nopriv_recoger_form','recoger_form');
+add_action('wp_ajax_recoger_form','recoger_form');
 
 function array_search_partial($arr, $keyword) {
     foreach($arr as $index => $string) {
@@ -45,9 +52,4 @@ function recoger_form() {
 
     echo $html;
     wp_die();
-}
-
-
-function tratar_resultados(){
-
 }
