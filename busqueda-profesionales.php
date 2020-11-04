@@ -1,6 +1,6 @@
 <?php
 /*
-* Template Name: Busqueda Profesionales
+* Template Name: Busqueda de Profesionales
 */
 
 // cosas de WP
@@ -18,6 +18,7 @@ $action_slug = $wp_query->query_vars['name'];
     <form role="search" method="get" class="search-form">
         <label>
             <span class="screen-reader-text"><?php echo _x('Buscar:', 'label') ?></span>
+            <input type="hidden" value="profesionales" id="modo" name="modo" />
             <input type="search" class="search-field" placeholder="<?php echo esc_attr_x('Introduzca su búsqueda...', 'placeholder') ?>"
                    value="<?php echo get_search_query() ?>" name="s" id="s"
                    title="<?php echo esc_attr_x('Buscar:', 'label') ?>"/>
@@ -34,7 +35,7 @@ $action_slug = $wp_query->query_vars['name'];
 <?php
 
 if ( isset( $_GET['search-submit'] ) ) {
-
+/*
     // global de WP para la base de datos
     global $wpdb;
     // Haciendo query para todos los usuarios
@@ -58,7 +59,7 @@ if ( isset( $_GET['search-submit'] ) ) {
         // AQUI SE MUESTRA EL RESULTADO
         var_dump($coincidence);
     }
-
+*/
 }
 
 get_footer();

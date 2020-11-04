@@ -47,9 +47,82 @@ function recoger_form() {
     include('resultados.php');
 
     $busqueda = $_POST['busqueda'];
+    $modo = $_POST['modo'];
+    $html = '';
 
-    $html = tratar_resultados($busqueda);
+    // estas funciones están en resultados.php (MANDANGADA SUPREMA)
+    $coincidences = tratar_resultados($busqueda, $modo);
+
+    if(!empty($coincidences)) {
+
+        if ($modo == 'profesionales') {
+            $html = format_profesional_results($coincidences);
+        } elseif ($modo == 'stands') {
+            $html = format_stand_results($coincidences);
+        }
+    }
+
 
     echo $html;
     wp_die();
 }
+
+function array_search_prepare($array) {
+    $search_array = [];
+    foreach ($array as $key => $values) {
+        // Voy a seguir las indicaciones de Emilio.
+        // Muero por dentro.
+        switch ($values->f_name) {
+            case 'field-iAengUTB3aB4rty';
+                $search_array['nombre'] = $values->f_val;
+                break;
+            case 'field-5DKUfW4Nrkc8GA1';
+                $search_array['apellidos'] = $values->f_val;
+                break;
+            case 'field-SrYGGSOjVPMD6x9';
+                $search_array['cargo'] = $values->f_val;
+                break;
+            case 'field-6c5pMGRjtLbDWY1';
+                $search_array['perfilprof'] = $values->f_val;
+                break;
+            case 'field-qf0eWawUTEF1uB8';
+                $search_array['descint'] = $values->f_val;
+                break;
+            case 'field-NLEJnYxoTYtGias';
+                $search_array['stand_nombre'] = $values->f_val;
+            case 'field-nbLfsqdNGBDPR6t';
+                $search_array['stand_productos'] = $values->f_val;
+                break;
+
+        }
+    }
+   return $search_array;
+}
+
+function professional_array_prepare($array) {
+
+    $show_array = array_search_prepare($array);
+    foreach ($array as $value) {
+        switch ($value->f_name) {
+            case 'field-fJ3ygLH1oBUWCaG';
+                $show_array['empresa'] = $value->f_val;
+        }
+    }
+
+    return $show_array;
+}
+
+function stand_array_prepare($array) {
+
+    $show_array = array_search_prepare($array);
+    foreach ($array as $value) {
+        switch ($value->f_name) {
+            case 'field-fJ3ygLH1oBUWCaG';
+                $show_array['empresa'] = $value->f_val;
+        }
+    }
+
+    return $show_array;
+}
+
+
