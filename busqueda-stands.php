@@ -37,3 +37,5 @@ $action_slug = $wp_query->query_vars['name'];
 if ( isset( $_GET['search-submit'] ) ) {
 
 }
+
+get_footer();

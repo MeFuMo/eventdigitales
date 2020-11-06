@@ -54,12 +54,13 @@ function recoger_form() {
     $coincidences = tratar_resultados($busqueda, $modo);
 
     if(!empty($coincidences)) {
-
         if ($modo == 'profesionales') {
-            $html = format_profesional_results($coincidences);
+            $html = format_professional_results($coincidences);
         } elseif ($modo == 'stands') {
             $html = format_stand_results($coincidences);
         }
+    } else {
+        $html = 'No hay resultados para la búsqueda';
     }
 
 

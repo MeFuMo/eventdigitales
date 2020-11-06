@@ -15,17 +15,27 @@ function tratar_resultados($busqueda, $modo){
     // Haciendo query para todo lo que sea
     $results = $wpdb->get_results( "SELECT id, post_content FROM {$wpdb->prefix}posts WHERE post_type = 'erforms_submission' and post_title like '%{$post_title}%'", OBJECT );
 
-    foreach ($results as $result) {
-        // decodificamos el post_content
-        $result_array = json_decode($result->post_content);
-        // preparamos un array asociativo con los campos de busqueda
-        $searchable_array = array_search_prepare($result_array->fields_data);
-        // si hay alguna coincidencia
-        if( array_search_partial( $searchable_array, $busqueda ) ) {
-            // guardamos el resultado para mostrar
-            $coincidences[$result->id] = $result_array->fields_data;
+    if (count($results )> 0) {
+        foreach ($results as $result) {
+            // decodificamos el post_content
+            $result_array = json_decode($result->post_content);
+            // preparamos un array asociativo con los campos de busqueda
+            $searchable_array = array_search_prepare($result_array->fields_data);
+            // si hay alguna coincidencia
+
+                // guardamos el resultado para mostrar
+                foreach($searchable_array as $index => $string) {
+                    if (strpos(strtoupper($string), strtoupper($busqueda)) !== FALSE)
+                        $coincidences[$result->id] = $result_array->fields_data;
+                }
+
         }
     }
+
+    else {
+        $coincidences['no_results'] = 'No hay resultados para la búsqueda';
+    }
+
 
     return $coincidences;
 
@@ -34,21 +44,27 @@ function tratar_resultados($busqueda, $modo){
 function format_professional_results($coincidences) {
 
     $html = '';
-    foreach ($coincidences as $coincidence) {
-        $show = professional_array_prepare($coincidence);
-        $html .= '<div class="result">Nombre: ' . $show["nombre"] . ' Apellidos: ' . $show["apellidos"] . ' Cargo: ' . $show["cargo"] . ' Empresa: ' . $show["empresa"] . '</div>';
+    if ($coincidences['no_results']) {
+        $html = $coincidences['no_results'];
+    } else {
+        foreach ($coincidences as $coincidence) {
+            $show = professional_array_prepare($coincidence);
+            $html .= '<div class="div_resultados_prof"><span class="nombre">Nombre: ' . $show["nombre"] . ' Apellidos: ' . $show["apellidos"] . '</span><span class="cargo"> Cargo: ' . $show["cargo"] . '</span> <span class="empresa">Empresa: ' . $show["empresa"] . '</span><span class="mostrar_mas">Mostrar más</span></div>';
+        }
+        return $html;
     }
-    return $html;
-
 }
 
 function format_stand_results($coincidences) {
 
     $html = '';
-    foreach ($coincidences as $coincidence) {
-        $show = stand_array_prepare($coincidence);
-        $html .= '<div class="result">Nombre: ' . $show["stand_nombre"] . '</div>';
+    if ($coincidences['no_results']) {
+        $html = $coincidences['no_results'];
+    } else {
+        foreach ($coincidences as $coincidence) {
+            $show = stand_array_prepare($coincidence);
+            $html .= '<div class="div_resultados_stands">Nombre: ' . $show["stand_nombre"] . '</div>';
+        }
     }
     return $html;
-
 }

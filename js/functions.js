@@ -3,6 +3,7 @@ jQuery(document).ready(function() {
         e.preventDefault();
         var busqueda = jQuery('#s').val();
         var modo = jQuery('#modo').val();
+        jQuery("#mostrar").html('<p style="text-align:center"><img alt="Buscando" src="../wp-content/themes/eventim_child/js/loadingAnimation.gif"/><br>Buscando</p>');
         jQuery.ajax({
             url: arpaAjaxData.ajaxurl,
             data: {
@@ -14,6 +15,7 @@ jQuery(document).ready(function() {
             success: function (data) {
                 jQuery("#mostrar").html('');
                 jQuery("#mostrar").append(data);
+                jQuery('#s').val('');
             }
         });
     });
