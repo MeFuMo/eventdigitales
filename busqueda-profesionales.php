@@ -40,22 +40,33 @@ $action_slug = $wp_query->query_vars['name'];
 </section>
 
 <div id="arpa_main_buscador">
-<section class="boldSection topSpaced bottomSemiSpaced gutter inherit">
-
-    <form role="search" method="get" class="search-form">
-        <label>
-            <span class="screen-reader-text"><?php echo _x('Buscar:', 'label') ?></span>
-            <input type="hidden" value="profesionales" id="modo" name="modo" />
-            <input type="search" class="search-field arpa_busqueda_nombre" placeholder="<?php echo esc_attr_x('Introduzca su búsqueda...', 'placeholder') ?>"
-                   value="<?php echo get_search_query() ?>" name="s" id="s"
-                   title="<?php echo esc_attr_x('Buscar:', 'label') ?>"/>
-        </label>
-
-        <input type="submit" name="search-submit" class="search-submit arpa_submit" value="<?php echo esc_attr_x('Buscar', 'submit button') ?>"/>
-    </form>
-
-    <div id="mostrar" class="rowItem col-md-6 col-sm-12 btTextLeft inherit"></div>
-</section>
+    <section class="boldSection topSpaced bottomSemiSpaced gutter inherit">
+        <form role="search" method="get" class="search-form">
+            <label>
+                <span class="screen-reader-text"><?php echo _x('Buscar:', 'label') ?></span>
+                <input type="hidden" value="profesionales" id="modo" name="modo" />
+                <input type="search" class="search-field arpa_busqueda_nombre" placeholder="<?php echo esc_attr_x('Introduzca su búsqueda...', 'placeholder') ?>"
+                       value="<?php echo get_search_query() ?>" name="s" id="s"
+                       title="<?php echo esc_attr_x('Buscar:', 'label') ?>"/>
+            </label>
+            <input type="submit" name="search-submit" class="search-submit arpa_submit" value="<?php echo esc_attr_x('Buscar', 'submit button') ?>"/>
+        </form>
+        <div id="parent_results">
+            <div id="mostrar" class="rowItem col-md-6 col-sm-12 btTextLeft inherit"></div>
+        </div>
+        <div id="popup" style="display: none;">
+            <div class="content-popup">
+                <div class="close"><a href="#" id="close" onclick="cerrar_modal();">X</a></div>
+                <div>
+                    <h2>Contenido POPUP</h2>
+                    <p>Lorem Ipsum...</p>
+                    <div style="float:left; width:100%;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="popup-overlay"></div>
+    </section>
 </div>
 <?php
 

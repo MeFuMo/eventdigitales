@@ -47,9 +47,16 @@ function format_professional_results($coincidences) {
     if ($coincidences['no_results']) {
         $html = $coincidences['no_results'];
     } else {
-        foreach ($coincidences as $coincidence) {
+        foreach ($coincidences as $key => $coincidence) {
             $show = professional_array_prepare($coincidence);
-            $html .= '<div class="div_resultados_prof"><span class="nombre">Nombre: ' . $show["nombre"] . ' Apellidos: ' . $show["apellidos"] . '</span><span class="cargo"> Cargo: ' . $show["cargo"] . '</span> <span class="empresa">Empresa: ' . $show["empresa"] . '</span><span class="mostrar_mas">Mostrar más</span></div>';
+            if(!$show['avatar']) {
+                $avatar = '../wp-content/themes/eventim_child/img/no-avatar.png';
+            } else {
+                $avatar = $show['avatar'];
+            }
+            $html .= '<div class="div_resultados_prof"><span><img alt="avatar" class="avatar" src="'.$avatar.'" /></span><div class="datos_prof">Nombre: ' .
+                $show["nombre"] . ' ' . $show["apellidos"] . ' <span style="margin-left:50px;">Cargo: ' . $show["cargo"] . '</span><br>Empresa: ' .
+                $show["empresa"] . '</div><div id="'.$key.'" class="mostrar_mas" onclick="mostrar_modal('.$key.')">Mostrar más</div></div>';
         }
         return $html;
     }
@@ -58,12 +65,22 @@ function format_professional_results($coincidences) {
 function format_stand_results($coincidences) {
 
     $html = '';
+    $num_stand = 0;
     if ($coincidences['no_results']) {
         $html = $coincidences['no_results'];
     } else {
         foreach ($coincidences as $coincidence) {
+            $num_stand ++;
             $show = stand_array_prepare($coincidence);
-            $html .= '<div class="div_resultados_stands">Nombre: ' . $show["stand_nombre"] . '</div>';
+            if(!$show['avatar']) {
+                $avatar = '../wp-content/themes/eventim_child/img/no-avatar.png';
+            } else {
+                $avatar = $show['avatar'];
+            }
+            $html .= '<div class="div_resultados_stands">'.$show['stand_nombre'].'<br><a href="#" title="' . $show["stand_nombre"] . '"><img class="avatar_stands" alt="' . $show["stand_nombre"] . '" src="'.$avatar.'" /></a></div>';
+            if ($num_stand % 4 == 0) {
+                $html = $html . '<br>';
+            }
         }
     }
     return $html;
