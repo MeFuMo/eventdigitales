@@ -53,22 +53,15 @@ function format_stand_results($coincidences)
 
     $html = '';
     $num_stand = 0;
-    if ($coincidences['no_results']) {
-        $html = $coincidences['no_results'];
-    } else {
-        foreach ($coincidences as $coincidence) {
-            $num_stand++;
-            $show = stand_array_prepare($coincidence);
-            /*Invención para mostrar un avatar si no existe*/
-            /*  if(!$show['avatar']) {
-                  $avatar = '../wp-content/themes/eventim_child/img/no-avatar.png';
-              } else {
-                  $avatar = $show['avatar'];
-              }*/
-            $html .= '<div class="div_resultados_stands">' . $show['stand_nombre'] . '<br><a href="#" title="' . $show["stand_nombre"] . '"><img class="avatar_stands" alt="' . $show["stand_nombre"] . '" src="' . $avatar . '" /></a></div>';
-            if ($num_stand % 4 == 0) {
-                $html = $html . '<br>';
-            }
+    foreach ($coincidences as $key => $coincidence) {
+        $num_stand++;
+        $show = stand_array_prepare($coincidence);
+        $show['avatar'] = get_record_avatar($key);
+        $html .= '<div class="div_resultados_stands">' . $show['stand_nombre']
+            . '<br><a href="#" title="' . $show["stand_nombre"] . '"><img class="avatar_stands" alt="'
+            . $show["stand_nombre"] . '" src="' . $show['avatar'] . '" /></a></div>';
+        if ($num_stand % 4 == 0) {
+            $html = $html . '<br>';
         }
     }
     return $html;
@@ -78,6 +71,8 @@ function search_profesional($id_profesional)
 {
 
     global $wpdb;
+    // Por defecto no hay un resultado
+    $html = 'El profesional no existe';
     $result = $wpdb->get_row("SELECT id, post_content FROM {$wpdb->prefix}posts WHERE post_type = 'erforms_submission' and post_title like '%1888%' and id = {$id_profesional}", OBJECT);
     if ($result) {
         // decodificamos el post_content
@@ -106,7 +101,7 @@ function search_profesional($id_profesional)
                             <div class="label_popup">Intereses</div><textarea disabled rows="5" cols="30" readonly id="intereses">' . $data['descint'] . '</textarea>
                         </div>';
 
-        return $html;
     }
+    return $html;
 
 }

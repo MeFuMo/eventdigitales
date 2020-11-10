@@ -11,34 +11,37 @@ function my_theme_enqueue_styles()
 
 add_action('wp_enqueue_scripts', 'my_theme_enqueue_styles');
 
-function my_custom_scripts() {
-    wp_enqueue_script( 'functions', get_stylesheet_directory_uri() . '/js/functions.js', array( 'jquery' ),'',true );
+function my_custom_scripts()
+{
+    wp_enqueue_script('functions', get_stylesheet_directory_uri() . '/js/functions.js', array('jquery'), '', true);
 }
 
-add_action( 'wp_enqueue_scripts', 'my_custom_scripts' );
+add_action('wp_enqueue_scripts', 'my_custom_scripts');
 
 /*Incluimos el archivo js que llamará al ajax desde el front y lo vinculamos con la función ajax de Wordpress*/
 add_action('wp_enqueue_scripts', 'agregar_ajax');
 
-function agregar_ajax() {
-    wp_register_script( 'functions', get_stylesheet_directory_uri().'/js/functions.js', array ( 'jquery' ), 1.1, true);
-    wp_enqueue_script( 'functions');
+function agregar_ajax()
+{
+    wp_register_script('functions', get_stylesheet_directory_uri() . '/js/functions.js', array('jquery'), 1.1, true);
+    wp_enqueue_script('functions');
     wp_localize_script(
         'functions',
         'arpaAjaxData',
-        array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) )
+        array('ajaxurl' => admin_url('admin-ajax.php'))
     );
 }
 
 //Declarar las funciones que devolverán los datos por ajax
-add_action('wp_ajax_nopriv_recoger_form','recoger_form');
-add_action('wp_ajax_recoger_form','recoger_form');
+add_action('wp_ajax_nopriv_recoger_form', 'recoger_form');
+add_action('wp_ajax_recoger_form', 'recoger_form');
 
-add_action('wp_ajax_nopriv_datos_profesional','datos_profesional');
-add_action('wp_ajax_datos_profesional','datos_profesional');
+add_action('wp_ajax_nopriv_datos_profesional', 'datos_profesional');
+add_action('wp_ajax_datos_profesional', 'datos_profesional');
 
-function array_search_partial($arr, $keyword) {
-    foreach($arr as $index => $string) {
+function array_search_partial($arr, $keyword)
+{
+    foreach ($arr as $index => $string) {
         if (strpos($string, $keyword) !== FALSE)
             return $index;
     }
@@ -46,7 +49,8 @@ function array_search_partial($arr, $keyword) {
     return FALSE;
 }
 
-function recoger_form() {
+function recoger_form()
+{
     include('resultados.php');
 
     $busqueda = $_POST['busqueda'];
@@ -57,7 +61,7 @@ function recoger_form() {
     // estas funciones están en resultados.php
     $coincidences = tratar_resultados($busqueda, $modo);
 
-    if(!empty($coincidences)) {
+    if (!empty($coincidences)) {
         if ($modo == 'profesionales') {
             $html = format_professional_results($coincidences);
         } elseif ($modo == 'stands') {
@@ -69,17 +73,20 @@ function recoger_form() {
     wp_die();
 }
 
-function datos_profesional(){
+function datos_profesional()
+{
     include('resultados.php');
     $id = $_POST['id_profesional'];
-/*Para traer los datos de un profesional y mostrarlos en la ventana modal*/
+
+    /*Para traer los datos de un profesional y mostrarlos en la ventana modal*/
     $html = search_profesional($id);
 
     echo $html;
     wp_die();
 }
 
-function array_search_prepare($array) {
+function array_search_prepare($array)
+{
     $search_array = [];
     foreach ($array as $key => $values) {
         switch ($values->f_name) {
@@ -118,29 +125,36 @@ function array_search_prepare($array) {
                 break;
         }
     }
-   return $search_array;
+    return $search_array;
 }
 
-function professional_array_prepare($array) {
+function professional_array_prepare($array)
+{
 
     $show_array = array_search_prepare($array);
 
     return $show_array;
 }
 
-function stand_array_prepare($array) {
+function stand_array_prepare($array)
+{
 
     $show_array = array_search_prepare($array);
 
     return $show_array;
 }
 
-function get_record_avatar($id) {
+function get_record_avatar($id)
+{
 
     global $wpdb;
+    $return = '../wp-content/themes/eventim_child/img/no-avatar.png';
     $query = "SELECT meta_value FROM w47fa_postmeta w where meta_key = '_wp_attached_file' and post_id = '{$id}'";
     $result = $wpdb->get_col($query);
-    return $result[0];
+    if (!empty($result[0])) {
+        $return = $result[0];
+    }
+    return $return;
 }
 
 
