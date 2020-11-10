@@ -51,7 +51,8 @@ function recoger_form() {
 
     $busqueda = $_POST['busqueda'];
     $modo = $_POST['modo'];
-    $html = '';
+    // Por defecto los resultados están vacíos
+    $html = 'No hay resultados para la búsqueda';
 
     // estas funciones están en resultados.php
     $coincidences = tratar_resultados($busqueda, $modo);
@@ -62,8 +63,6 @@ function recoger_form() {
         } elseif ($modo == 'stands') {
             $html = format_stand_results($coincidences);
         }
-    } else {
-        $html = 'No hay resultados para la búsqueda';
     }
 
     echo $html;
@@ -114,6 +113,9 @@ function array_search_prepare($array) {
             case 'field-bW5jAypv7ChtpZE';
                 $search_array['sector_interes'] = $values->f_val;
                 break;
+            case 'field-fJ3ygLH1oBUWCaG';
+                $show_array['empresa'] = $values->f_val;
+                break;
         }
     }
    return $search_array;
@@ -122,12 +124,6 @@ function array_search_prepare($array) {
 function professional_array_prepare($array) {
 
     $show_array = array_search_prepare($array);
-    foreach ($array as $value) {
-        switch ($value->f_name) {
-            case 'field-fJ3ygLH1oBUWCaG';
-                $show_array['empresa'] = $value->f_val;
-        }
-    }
 
     return $show_array;
 }
@@ -135,14 +131,16 @@ function professional_array_prepare($array) {
 function stand_array_prepare($array) {
 
     $show_array = array_search_prepare($array);
-    foreach ($array as $value) {
-        switch ($value->f_name) {
-            case 'field-fJ3ygLH1oBUWCaG';
-                $show_array['empresa'] = $value->f_val;
-        }
-    }
 
     return $show_array;
+}
+
+function get_record_avatar($id) {
+
+    global $wpdb;
+    $query = "SELECT meta_value FROM w47fa_postmeta w where meta_key = '_wp_attached_file' and post_id = '{$id}'";
+    $result = $wpdb->get_col($query);
+    return $result[0];
 }
 
 
