@@ -25,8 +25,9 @@ function tratar_resultados($busqueda, $modo){
 
                 // guardamos el resultado para mostrar
                 foreach($searchable_array as $index => $string) {
-                    if (strpos(strtoupper($string), strtoupper($busqueda)) !== FALSE)
+                    if (strpos(strtoupper($string), strtoupper($busqueda)) !== FALSE) {
                         $coincidences[$result->id] = $result_array->fields_data;
+                    }
                 }
 
         }
@@ -49,6 +50,7 @@ function format_professional_results($coincidences) {
     } else {
         foreach ($coincidences as $key => $coincidence) {
             $show = professional_array_prepare($coincidence);
+            /*Invención para mostrar un avatar si no existe*/
             if(!$show['avatar']) {
                 $avatar = '../wp-content/themes/eventim_child/img/no-avatar.png';
             } else {
@@ -72,6 +74,7 @@ function format_stand_results($coincidences) {
         foreach ($coincidences as $coincidence) {
             $num_stand ++;
             $show = stand_array_prepare($coincidence);
+            /*Invención para mostrar un avatar si no existe*/
             if(!$show['avatar']) {
                 $avatar = '../wp-content/themes/eventim_child/img/no-avatar.png';
             } else {
@@ -83,5 +86,57 @@ function format_stand_results($coincidences) {
             }
         }
     }
+    return $html;
+}
+
+function search_profesional($id_profesional){
+    global $wpdb;
+    $results = $wpdb->get_results( "SELECT id, post_content FROM {$wpdb->prefix}posts WHERE post_type = 'erforms_submission' and post_title like '%1888%' and id = {$id_profesional}", OBJECT );
+
+    foreach ($results as $result) {
+        if (count($result) > 0) {
+            // decodificamos el post_content
+            $result_array = json_decode($result->post_content);
+            // preparamos un array asociativo con los campos de busqueda
+            $searchable_array = array_search_prepare($result_array->fields_data);
+            // si hay alguna coincidencia
+
+            // guardamos el resultado para mostrar
+            foreach ($searchable_array as $index => $string) {
+                $coincidences[$result->id] = $result_array->fields_data;
+            }
+        } else {
+            $coincidences['no_results'] = 'No hay resultados para la búsqueda';
+        }
+    }
+
+    foreach ($coincidences as $key => $coincidence) {
+        $data = professional_array_prepare($coincidence);
+        /*Invención para mostrar un avatar si no existe*/
+        if(!$data['avatar']) {
+            $data['avatar'] = '../wp-content/themes/eventim_child/img/no-avatar.png';
+        }
+        $sectores = '';
+        foreach ($data['sector_interes'] as $sector) {
+            $sectores = $sectores . $sector .', ';
+        }
+
+        $html = '<div id="avatar_prof">
+                            <img src="'. $data['avatar'] .'" class="avatar_prof" alt="avatar">
+                        </div>
+                        <h2 class="tit_modal">Datos del Profesional</h2>
+                        <div style="margin: 0px;position: relative;top: -25px;">
+                            <div class="label_popup" style="">Apellidos</div><div class="result_data" id="apellidos">'.$data['apellidos'].'</div>
+                            <div class="label_popup">Nombre</div><div class="result_data" id="nombre">'.$data['nombre'].'</div>
+                            <div class="label_popup">Empresa/Institución</div><div class="result_data" id="empresa" style="font-size:14px;">'.$data['empresa'].'</div>
+                            <div class="label_popup">Cargo</div><div class="result_data" id="cargo">'.$data['cargo'].'</div>
+                            <div class="label_popup">Otro cargo (si lo hubiera)</div><div class="result_data" id="otro_cargo">'.$data['otro_cargo'].'</div>
+                            <div class="label_popup">Sector de actividad</div><div class="result_data" id="sector_actividad">'.$data['sector_actividad'].'</div>
+                            <div class="label_popup">Sectores de interés</div><textarea disabled rows="5" cols="30" readonly id="sector_interes">'.$sectores.'</textarea>
+                            <div class="label_popup">Perfil Profesional</div><textarea disabled rows="5" cols="30" readonly id="perfil">'.$data['perfilprof'].'</textarea>
+                            <div class="label_popup">Intereses</div><textarea disabled rows="5" cols="30" readonly id="intereses">'.$data['descint'].'</textarea>
+                        </div>';
+    }
+
     return $html;
 }

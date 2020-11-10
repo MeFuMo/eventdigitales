@@ -57,10 +57,8 @@ $action_slug = $wp_query->query_vars['name'];
         <div id="popup" style="display: none;">
             <div class="content-popup">
                 <div class="close"><a href="#" id="close" onclick="cerrar_modal();">X</a></div>
-                <div>
-                    <h2>Contenido POPUP</h2>
-                    <p>Lorem Ipsum...</p>
-                    <div style="float:left; width:100%;">
+                <div class="margen_popup">
+                    <div class="contenido_popup">
                     </div>
                 </div>
             </div>
@@ -69,33 +67,5 @@ $action_slug = $wp_query->query_vars['name'];
     </section>
 </div>
 <?php
-
-if ( isset( $_GET['search-submit'] ) ) {
-/*
-    // global de WP para la base de datos
-    global $wpdb;
-    // Haciendo query para todos los usuarios
-    $results = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}posts WHERE post_type = 'erforms_submission' and post_title like '%2016%'", OBJECT );
-    // escapando la query de busqueda
-    $keyword = sanitize_text_field($_POST['s']);
-    // aquí guardaremos los resultados que coincidan
-    $coincidences = [];
-
-    foreach ($results as $result) {
-        // decodificamos el post_content
-        $result_array = json_decode($result->post_content);
-        // si hay alguna coincidencia
-        if( array_search_partial($result_array, $keyword) ) {
-            // guardamos el resultado sin serializar
-            $coincidences[] = $result_array;
-        }
-    }
-
-    foreach($coincidences as $coincidence) {
-        // AQUI SE MUESTRA EL RESULTADO
-        var_dump($coincidence);
-    }
-*/
-}
 
 get_footer();

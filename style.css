@@ -18,6 +18,7 @@ Template: eventim
     margin-left:20px;
     border: black 1px solid !important;
     color:black !important;
+    display: inline !important;
 }
 
 .arpa_submit{
@@ -25,6 +26,7 @@ Template: eventim
     margin: 0 auto;
     background-color: #337ab7 !important;
     border-color: #2e6da4 !important;
+    display: inline !important;
 }
 
 .arpa_submit:hover{
@@ -101,6 +103,12 @@ Template: eventim
     top: 0;
     width: 100%;
     z-index: 1001;
+    height: 1500px;
+}
+
+.avatar_prof{
+    width: 20%;
+    float:left;
 }
 
 .content-popup {
@@ -108,18 +116,54 @@ Template: eventim
     margin-top:120px;
     position:relative;
     padding:10px;
-    width:500px;
-    min-height:250px;
-    border-radius:4px;
-    background-color:#FFFFFF;
+    width:850px;
+    background-color: #c4c1c5;
     box-shadow: 0 2px 5px #666666;
 }
-
 .content-popup h2 {
-    color:#48484B;
-    border-bottom: 1px solid #48484B;
-    margin-top: 0;
+    color:#48484B !important;
+    margin-top: 0 !important;
     padding-bottom: 4px;
+    position: relative;
+    top: -100px;
+    left: 200px;
+}
+
+.margen_popup{
+    margin:50px;
+
+}
+
+.contenido_popup{
+    padding:20px;
+    border: 5px solid #fbc100;
+    background-color: white;
+}
+
+.label_popup{
+    font-weight: bold;
+    text-align: right;
+    width:190px;
+    margin:5px;
+    display: inline-block;
+
+}
+
+.result_data{
+    background-color: #a0bbd5;
+    width: 480px;
+    height: 35px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-bottom: 10px;
+}
+
+.content-popup textarea{
+    background-color: #a0bbd5;
+    width: 480px;
+    vertical-align: middle;
+    margin-bottom: 10px;
+    color: black !important;
 }
 
 .popup-overlay {
@@ -136,5 +180,16 @@ Template: eventim
 
 .close {
     position: absolute;
-    right: 15px;
+    right: 30px;
+    background-color: #fbc100;
+    color: black !important;
+    width: 25px;
+    text-align: center;
+
+}
+
+.close a{
+    color: black !important;
+    font-weight: bold;
+    font-size: 16px;
 }

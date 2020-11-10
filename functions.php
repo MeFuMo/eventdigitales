@@ -30,9 +30,12 @@ function agregar_ajax() {
     );
 }
 
-//Devolver datos a archivo js
+//Declarar las funciones que devolverán los datos por ajax
 add_action('wp_ajax_nopriv_recoger_form','recoger_form');
 add_action('wp_ajax_recoger_form','recoger_form');
+
+add_action('wp_ajax_nopriv_datos_profesional','datos_profesional');
+add_action('wp_ajax_datos_profesional','datos_profesional');
 
 function array_search_partial($arr, $keyword) {
     foreach($arr as $index => $string) {
@@ -50,7 +53,7 @@ function recoger_form() {
     $modo = $_POST['modo'];
     $html = '';
 
-    // estas funciones están en resultados.php (MANDANGADA SUPREMA)
+    // estas funciones están en resultados.php
     $coincidences = tratar_resultados($busqueda, $modo);
 
     if(!empty($coincidences)) {
@@ -63,6 +66,15 @@ function recoger_form() {
         $html = 'No hay resultados para la búsqueda';
     }
 
+    echo $html;
+    wp_die();
+}
+
+function datos_profesional(){
+    include('resultados.php');
+    $id = $_POST['id_profesional'];
+/*Para traer los datos de un profesional y mostrarlos en la ventana modal*/
+    $html = search_profesional($id);
 
     echo $html;
     wp_die();
@@ -71,8 +83,6 @@ function recoger_form() {
 function array_search_prepare($array) {
     $search_array = [];
     foreach ($array as $key => $values) {
-        // Voy a seguir las indicaciones de Emilio.
-        // Muero por dentro.
         switch ($values->f_name) {
             case 'field-iAengUTB3aB4rty';
                 $search_array['nombre'] = $values->f_val;
@@ -91,10 +101,19 @@ function array_search_prepare($array) {
                 break;
             case 'field-NLEJnYxoTYtGias';
                 $search_array['stand_nombre'] = $values->f_val;
+                break;
             case 'field-nbLfsqdNGBDPR6t';
                 $search_array['stand_productos'] = $values->f_val;
                 break;
-
+            case 'field-JRnfP7QR4htDszo';
+                $search_array['otro_cargo'] = $values->f_val;
+                break;
+            case 'field-djz2cWDp6OWAXFJ';
+                $search_array['sector_actividad'] = $values->f_val;
+                break;
+            case 'field-bW5jAypv7ChtpZE';
+                $search_array['sector_interes'] = $values->f_val;
+                break;
         }
     }
    return $search_array;

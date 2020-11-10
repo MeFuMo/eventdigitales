@@ -22,6 +22,24 @@ jQuery(document).ready(function() {
 });
 
 function mostrar_modal(profesional_id){
+    jQuery('html, body').animate({scrollTop:0}, 'slow');
+    var sectores = '';
+    jQuery(".contenido_popup").html('<p style="text-align:center"><img alt="Buscando" src="../wp-content/themes/eventim_child/img/loadingAnimation.gif"/><br>Buscando</p>');
+    jQuery.ajax({
+        url: arpaAjaxData.ajaxurl,
+        data: {
+            action: 'datos_profesional',
+            id_profesional: profesional_id,
+            contentType: "application/json",
+            dataType: 'json',
+        },
+        type: 'POST',
+        success: function (data) {
+            jQuery(".contenido_popup").html('');
+            jQuery(".contenido_popup").append(data);
+
+        }
+    });
     jQuery('#popup').fadeIn('slow');
     jQuery('.popup-overlay').fadeIn('slow');
     jQuery('.popup-overlay').height(jQuery(window).height());
