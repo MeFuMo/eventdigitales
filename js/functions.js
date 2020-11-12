@@ -2,6 +2,10 @@ jQuery(document).ready(function() {
     jQuery('.search-form').on("submit", function (e) {
         e.preventDefault();
         var busqueda = jQuery('#s').val();
+        var actividad = jQuery('#select_actividad').val();
+        var interes = jQuery('#select_interes').val();
+        var entidad = jQuery('#select_entidad').val();
+        var programa = jQuery('#select_programa').val();
         var modo = jQuery('#modo').val();
         jQuery("#mostrar").html('<p style="text-align:center"><img alt="Buscando" src="../wp-content/themes/eventim_child/img/loadingAnimation.gif"/><br>Buscando</p>');
         jQuery.ajax({
@@ -9,6 +13,10 @@ jQuery(document).ready(function() {
             data: {
                 action: 'recoger_form',
                 busqueda: busqueda,
+                actividad: actividad,
+                interes: interes,
+                entidad: entidad,
+                programa: programa,
                 modo: modo
             },
             type: 'POST',

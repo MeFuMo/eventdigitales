@@ -52,23 +52,36 @@ function array_search_partial($arr, $keyword)
 function recoger_form()
 {
     include('resultados.php');
-
+    $html = '';
     $busqueda = $_POST['busqueda'];
+
+    /*Estos campos son los nuevos de profesionales*/
+    $actividad = $_POST['actividad'];
+    $interes = $_POST['interes'];
+
+    /*Estos son los nuevos campos de stands*/
+    $entidad = $_POST['entidad'];
+    $programa = $_POST['programa'];
+
+    /*Discrimina stands o profesionales*/
     $modo = $_POST['modo'];
-    // Por defecto los resultados están vacíos
-    $html = 'No hay resultados para la búsqueda';
+    if (!$busqueda) {
+        $html = '<div class="error">Debe ingresar al menos un texto para realizar la búsqueda.</div>';
+    } else {
+        // Por defecto los resultados están vacíos
+        $html = 'No hay resultados para la búsqueda';
 
-    // estas funciones están en resultados.php
-    $coincidences = tratar_resultados($busqueda, $modo);
+        // estas funciones están en resultados.php
+        $coincidences = tratar_resultados($busqueda, $actividad, $interes, $programa, $entidad, $modo);
 
-    if (!empty($coincidences)) {
-        if ($modo == 'profesionales') {
-            $html = format_professional_results($coincidences);
-        } elseif ($modo == 'stands') {
-            $html = format_stand_results($coincidences);
+        if (!empty($coincidences)) {
+            if ($modo == 'profesionales') {
+                $html = format_professional_results($coincidences);
+            } elseif ($modo == 'stands') {
+                $html = format_stand_results($coincidences);
+            }
         }
     }
-
     echo $html;
     wp_die();
 }
@@ -105,14 +118,8 @@ function array_search_prepare($array)
             case 'field-qf0eWawUTEF1uB8';
                 $search_array['descint'] = $values->f_val;
                 break;
-            case 'field-NLEJnYxoTYtGias';
-                $search_array['stand_nombre'] = $values->f_val;
-                break;
-            case 'field-nbLfsqdNGBDPR6t';
-                $search_array['stand_productos'] = $values->f_val;
-                break;
-            case 'field-JRnfP7QR4htDszo';
-                $search_array['otro_cargo'] = $values->f_val;
+            case 'text-AvdZzL';
+                $search_array['email'] = $values->f_val;
                 break;
             case 'field-djz2cWDp6OWAXFJ';
                 $search_array['sector_actividad'] = $values->f_val;
@@ -121,7 +128,25 @@ function array_search_prepare($array)
                 $search_array['sector_interes'] = $values->f_val;
                 break;
             case 'field-fJ3ygLH1oBUWCaG';
-                $show_array['empresa'] = $values->f_val;
+                $search_array['empresa'] = $values->f_val;
+                break;
+            case 'field-wXJY5MEoR6tXU0M';
+                $search_array['img'] = $values->f_val;
+                break;
+            case 'field-bR0fGRzA4VW6DXA';
+                $search_array['stand_logo'] = $values->f_val;
+                break;
+            case 'field-TojtGMOYMBTfoSm';
+                $search_array['stand_tematica'] = $values->f_val;
+                break;
+            case 'field-NLEJnYxoTYtGias';
+                $search_array['stand_nombre'] = $values->f_val;
+                break;
+            case 'field-nbLfsqdNGBDPR6t';
+                $search_array['stand_productos'] = $values->f_val;
+                break;
+            case 'field-2ozDegS8qIUOmrN';
+                $search_array['stand_asociaciones'] = $values->f_val;
                 break;
         }
     }
@@ -152,9 +177,60 @@ function get_record_avatar($id)
     $query = "SELECT meta_value FROM w47fa_postmeta w where meta_key = '_wp_attached_file' and post_id = '{$id}'";
     $result = $wpdb->get_col($query);
     if (!empty($result[0])) {
-        $return = $result[0];
+        $return = '../wp-content/uploads/'.$result[0];
     }
     return $return;
+}
+/*Eliminar tildes y caracteres especiales del nombre para generar las URLs de los stands*/
+function clean_url_text($cadena){
+
+    $cadena = mb_strtolower($cadena, 'UTF-8');
+
+    //Reemplazamos la A y a
+    $cadena = str_replace(
+        array('Á', 'À', 'Â', 'Ä', 'á', 'à', 'ä', 'â', 'ª'),
+        array('A', 'A', 'A', 'A', 'a', 'a', 'a', 'a', 'a'),
+        $cadena
+    );
+
+    //Reemplazamos la E y e
+    $cadena = str_replace(
+        array('É', 'È', 'Ê', 'Ë', 'é', 'è', 'ë', 'ê'),
+        array('E', 'E', 'E', 'E', 'e', 'e', 'e', 'e'),
+        $cadena );
+
+    //Reemplazamos la I y i
+    $cadena = str_replace(
+        array('Í', 'Ì', 'Ï', 'Î', 'í', 'ì', 'ï', 'î'),
+        array('I', 'I', 'I', 'I', 'i', 'i', 'i', 'i'),
+        $cadena );
+
+    //Reemplazamos la O y o
+    $cadena = str_replace(
+        array('Ó', 'Ò', 'Ö', 'Ô', 'ó', 'ò', 'ö', 'ô'),
+        array('O', 'O', 'O', 'O', 'o', 'o', 'o', 'o'),
+        $cadena );
+
+    //Reemplazamos la U y u
+    $cadena = str_replace(
+        array('Ú', 'Ù', 'Û', 'Ü', 'ú', 'ù', 'ü', 'û'),
+        array('U', 'U', 'U', 'U', 'u', 'u', 'u', 'u'),
+        $cadena );
+
+    //Reemplazamos la N, n, C y c
+    $cadena = str_replace(
+        array('Ñ', 'ñ', 'Ç', 'ç'),
+        array('N', 'n', 'C', 'c'),
+        $cadena
+    );
+
+    $cadena = str_replace(':','',$cadena);
+
+    $cadena = str_replace(' - ',' ',$cadena);
+
+    $cadena = str_replace(' ','-',$cadena);
+
+    return $cadena;
 }
 
 

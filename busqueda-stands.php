@@ -49,6 +49,27 @@ $action_slug = $wp_query->query_vars['name'];
                 <input type="search" class="search-field arpa_busqueda_nombre" placeholder="<?php echo esc_attr_x('Introduzca su búsqueda...', 'placeholder') ?>"
                        value="<?php echo get_search_query() ?>" name="s" id="s"
                        title="<?php echo esc_attr_x('Buscar:', 'label') ?>"/>
+                <select class="arpa_busqueda_select" name="select_entidad" id="select_entidad">
+                    <option value="">Elija entidad expositora</option>
+                    <option value="Institución">Institución</option>
+                    <option value="Instituto de patrimonio">Instituto de patrimonio</option>
+                    <option value="Fundación o asociación">Fundación o asociación</option>
+                    <option value="Universidad, centro de investigación">Universidad, centro de investigación</option>
+                    <option value="Escuela taller o casa de oficios">Escuela taller o casa de oficios</option>
+                    <option value="Editorial o revista especializada">Editorial o revista especializada</option>
+                    <option value="Empresa de restauración">Empresa de restauración</option>
+                    <option value="Empresa de servicios">Empresa de servicios</option>
+                    <option value="Otro">Otro</option>
+                </select>
+                <select class="arpa_busqueda_select" name="select_entidad" id="select_entidad">
+                    <option value="">Elija programa</option>
+                    <option value="AR&amp;PA Instituciones">AR&amp;PA Instituciones</option>
+                    <option value="AR&amp;PA Negocio">AR&amp;PA Negocio</option>
+                    <option value="AR&amp;PA Empleo">AR&amp;PA Empleo</option>
+                    <option value="AR&amp;PA Museos">AR&amp;PA Museos</option>
+                    <option value="AR&amp;PA Iniciativas">AR&amp;PA Iniciativas</option>
+                    <option value="AR&amp;PA Innovación">AR&amp;PA Innovación</option>
+                </select>
             </label>
             <input type="submit" name="search-submit" class="search-submit arpa_submit" value="<?php echo esc_attr_x('Buscar', 'submit button') ?>"/>
         </form>
