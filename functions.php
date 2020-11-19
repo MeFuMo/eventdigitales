@@ -65,21 +65,18 @@ function recoger_form()
 
     /*Discrimina stands o profesionales*/
     $modo = $_POST['modo'];
-    if (!$busqueda) {
-        $html = '<div class="error">Debe ingresar al menos un texto para realizar la búsqueda.</div>';
-    } else {
-        // Por defecto los resultados están vacíos
-        $html = 'No hay resultados para la búsqueda';
 
-        // estas funciones están en resultados.php
-        $coincidences = tratar_resultados($busqueda, $actividad, $interes, $programa, $entidad, $modo);
+    // Por defecto los resultados están vacíos
+    $html = '<div class="error">No hay resultados para la búsqueda</div>';
 
-        if (!empty($coincidences)) {
-            if ($modo == 'profesionales') {
-                $html = format_professional_results($coincidences);
-            } elseif ($modo == 'stands') {
-                $html = format_stand_results($coincidences);
-            }
+    // estas funciones están en resultados.php
+    $coincidences = tratar_resultados($busqueda, $actividad, $interes, $programa, $entidad, $modo);
+
+    if (!empty($coincidences)) {
+        if ($modo == 'profesionales') {
+            $html = format_professional_results($coincidences);
+        } elseif ($modo == 'stands') {
+            $html = format_stand_results($coincidences);
         }
     }
     echo $html;
@@ -188,8 +185,8 @@ function clean_url_text($cadena){
 
     //Reemplazamos la A y a
     $cadena = str_replace(
-        array('Á', 'À', 'Â', 'Ä', 'á', 'à', 'ä', 'â', 'ª'),
-        array('A', 'A', 'A', 'A', 'a', 'a', 'a', 'a', 'a'),
+        array('Á', 'À', 'Â', 'Ä', 'á', 'à', 'ä', 'â', 'ª', 'Ã','ã'),
+        array('A', 'A', 'A', 'A', 'a', 'a', 'a', 'a', 'a','A', 'a'),
         $cadena
     );
 
@@ -207,8 +204,8 @@ function clean_url_text($cadena){
 
     //Reemplazamos la O y o
     $cadena = str_replace(
-        array('Ó', 'Ò', 'Ö', 'Ô', 'ó', 'ò', 'ö', 'ô'),
-        array('O', 'O', 'O', 'O', 'o', 'o', 'o', 'o'),
+        array('Ó', 'Ò', 'Ö', 'Ô', 'ó', 'ò', 'ö', 'ô', 'Õ' ,'õ'),
+        array('O', 'O', 'O', 'O', 'o', 'o', 'o', 'o', 'O', 'o'),
         $cadena );
 
     //Reemplazamos la U y u
@@ -224,9 +221,18 @@ function clean_url_text($cadena){
         $cadena
     );
 
-    $cadena = str_replace(':','',$cadena);
+    //Eliminamos signos de puntuación
+    $cadena = str_replace(
+        array(':', '.', ',', ';', "'", '(', ')', '¡', '!' , '?', '¿'),
+        array('', '', '', '', '', '', '', '', '', '', ''),
+        $cadena
+    );
+
+    $cadena = str_replace('/','-',$cadena);
 
     $cadena = str_replace(' - ',' ',$cadena);
+
+    $cadena = trim($cadena);
 
     $cadena = str_replace(' ','-',$cadena);
 

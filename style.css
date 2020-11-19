@@ -16,30 +16,35 @@ Template: eventim
     width:30% !important;
     margin-bottom: 20px;
     margin-left:20px;
-    border: black 1px solid !important;
-    color:black !important;
+    color:#404040 !important;
     display: inline !important;
+    font-family: "Roboto", Light !important;
+    background-color: #d8d8d8 !important;
 }
 
 .arpa_busqueda_select{
-    width:30% !important;
+    width:20% !important;
+    height: 50px;
     margin-bottom: 20px;
     margin-left:20px;
-    border: black 1px solid !important;
-    color:black !important;
+    color:#404040 !important;
     display: inline !important;
+    font-family: "Roboto", Light !important;
+    background-color: #d8d8d8;
 }
 
 .arpa_submit{
     width:10% !important;
-    margin: 0 auto;
-    background-color: #337ab7 !important;
-    border-color: #2e6da4 !important;
+    margin-left: 20px;
+    font-family: "Roboto", Black !important;
+    color: #404040 !important;
+    background-color: #f5a81a  !important;
+    display: inline-block !important;
+
 }
 
 .arpa_submit:hover{
-    background-color: #286090 !important;
-    border-color: #204d74 !important;
+    cursor:pointer;
 }
 
 .error{
@@ -61,31 +66,42 @@ Template: eventim
 }
 .div_resultados_prof{
     margin: 10px;
-    padding: 20px;
+    padding: 5px;
+    width:100%;
     font-size: 14px;
-    border:1px solid black;
-    background-color: #f3f3f3;
-    position:relative;
-    border-radius: 20px;
+    background-color: #F0F1EC;
 }
 .avatar{
-    position:relative;
-    width:5%;
-    border-radius: 50px;
-    display: inline;
-    vertical-align: middle;
+    width:10%;
+    display: inline-block;
+    vertical-align: top;
 }
 .datos_prof{
-    position:relative;
-    margin: 10px;
-    display: inline;
+    width: 89%;
+    display: inline-block;
     text-transform: capitalize;
 }
 
+.nombre{
+    margin-left: 10px;
+    display: block;
+    font-family: "Roboto", Black !important;
+    font-weight: bold;
+    color:#404040 !important;
+}
+
+.cargo{
+    margin-left: 10px;
+    display: block;
+    font-family: "Roboto", Light !important;
+    color:#404040 !important;
+}
+
 .empresa{
-    position:relative;
-    margin: 10px;
-    display: inline-block;
+    margin-left: 10px;
+    display: block;
+    font-family: "Roboto", Medium Italic !important;
+    color:#404040 !important;
     text-transform: capitalize;
 }
 
@@ -94,10 +110,11 @@ Template: eventim
     padding-bottom: 10px;
     cursor: pointer;
     color:black;
+    font-family: "Roboto", Light !important;
 }
 
 .mostrar_mas:hover{
-    color: #fbc100;
+    color: #f5a81a;
 }
 
 /*Estilos stands*/
@@ -121,7 +138,7 @@ Template: eventim
     top: 0;
     width: 100%;
     z-index: 1001;
-    height: 1500px;
+    height: 15000px;
 }
 
 .avatar_prof{
@@ -135,6 +152,7 @@ Template: eventim
     position:relative;
     padding:10px;
     width:850px;
+    height: 500px;
     background-color: #c4c1c5;
     box-shadow: 0 2px 5px #666666;
 }
@@ -148,14 +166,18 @@ Template: eventim
 }
 
 .margen_popup{
-    margin:50px;
+    margin:40px;
 
 }
 
 .contenido_popup{
-    padding:20px;
+    padding:10px;
     border: 5px solid #fbc100;
     background-color: white;
+    height: 400px;
+    width:750px;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 .label_popup{

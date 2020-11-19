@@ -3,12 +3,6 @@
 * Template Name: Busqueda de Stands
 */
 
-echo '<style> 
-.mainHeader{
-display: none !important;
-}
-</style>';
-
 // cosas de WP
 
 boldthemes_set_override();
@@ -17,29 +11,39 @@ get_header();
 
 $action_slug = $wp_query->query_vars['name'];
 
+/*Para cargar todos los stands al cargar la página*/
+
+$results = $wpdb->get_results("SELECT id, post_content FROM {$wpdb->prefix}posts WHERE post_type = 'erforms_submission' and post_title like '%2016%'", OBJECT);
+
+$coincidences = [];
+$html = '';
+foreach ($results as $result) {
+    // decodificamos el post_content
+    $result_array = json_decode($result->post_content);
+    // preparamos un array asociativo con los campos de busqueda
+    $searchable_array = array_search_prepare($result_array->fields_data);
+    // si hay alguna coincidencia
+    // guardamos el resultado para mostrar
+    foreach ($searchable_array as $index => $string) {
+        $coincidences[$result->id] = $result_array->fields_data;
+    }
+}
+$num_stand = 0;
+foreach ($coincidences as $key => $coincidence) {
+    $num_stand++;
+    $show = stand_array_prepare($coincidence);
+    $avatar = get_record_avatar($show['stand_logo']);
+
+    $url = clean_url_text($show['stand_nombre']);
+
+    $html .= '<div class="div_resultados_stands"><a href="../arpa-feria/'.$url.'" title="' . $show["stand_nombre"] . '">'.
+        '<img class="avatar_stands" alt="'. $show["stand_nombre"] . '" src="' . $avatar . '" /></a>'.
+        '<br>' . $show['stand_nombre'] . '</div>';
+    if ($num_stand % 4 == 0) {
+        $html = $html . '<br>';
+    }
+}
 ?>
-    <section id="bt_section5fa58e86b011a" class="boldSection gutter inherit" style="background-color:#fbc100;">
-        <div class="port">
-            <div class="boldCell">
-                <div class="boldCellInner">
-                    <div class="boldRow ">
-                        <div class="boldRowInner">
-                            <div class="rowItem col-md-12 col-ms-12  btTextLeft inherit" style="background-color: rgba(255, 255, 255, 1);" data-width="12">
-                                <div class="rowItemContent">
-                                    <div class="btClear btSeparator bottomSemiSpaced noBorder"><hr></div>
-                                    <div class="btText">
-                                        <p>
-                                            <img loading="lazy" class="alignnone wp-image-2104 size-full" src="https://www.eventos-digitales.com/wp-content/uploads/2020/09/Diseno-sin-titulo-19-1.png" alt="Logotipo ARPA 2020 del 26 al 28 de noviembre" srcset="https://www.eventos-digitales.com/wp-content/uploads/2020/09/Diseno-sin-titulo-19-1.png 957w, https://www.eventos-digitales.com/wp-content/uploads/2020/09/Diseno-sin-titulo-19-1-320x52.png 320w, https://www.eventos-digitales.com/wp-content/uploads/2020/09/Diseno-sin-titulo-19-1-768x125.png 768w, https://www.eventos-digitales.com/wp-content/uploads/2020/09/Diseno-sin-titulo-19-1-540x88.png 540w" sizes="(max-width: 957px) 100vw, 957px" width="957" height="156">
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 <div id="arpa_main_buscador">
     <section class="boldSection topSpaced bottomSemiSpaced gutter inherit">
         <form role="search" method="get" class="search-form">
@@ -74,7 +78,9 @@ $action_slug = $wp_query->query_vars['name'];
             <input type="submit" name="search-submit" class="search-submit arpa_submit" value="<?php echo esc_attr_x('Buscar', 'submit button') ?>"/>
         </form>
         <div id="parent_results">
-            <div id="mostrar" class="rowItem col-md-6 col-sm-12 btTextLeft inherit"></div>
+            <div id="mostrar" class="rowItem col-md-7 col-sm-12 btTextLeft inherit">
+                <?php echo $html; ?>
+            </div>
         </div>
     </section>
 </div>

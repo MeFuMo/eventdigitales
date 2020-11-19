@@ -2,11 +2,7 @@
 /*
 * Template Name: Busqueda de Profesionales
 */
-echo '<style> 
-.mainHeader{
-display: none !important;
-}
-</style>';
+
 // cosas de WP
 
 boldthemes_set_override();
@@ -15,8 +11,9 @@ get_header();
 
 $action_slug = $wp_query->query_vars['name'];
 
-/*Movida chunga para mostrar todos los profesionales*/
-$results = $wpdb->get_results("SELECT id, post_content FROM {$wpdb->prefix}posts WHERE post_type = 'erforms_submission' and post_title like '%{$post_title}%'", OBJECT);
+/*Para mostrar todos los profesionales al cargar la página*/
+
+$results = $wpdb->get_results("SELECT id, post_content FROM {$wpdb->prefix}posts WHERE post_type = 'erforms_submission' and post_title like '%1888%'", OBJECT);
 
 $coincidences = [];
 $html = '';
@@ -40,35 +37,11 @@ foreach ($coincidences as $key => $coincidence) {
     $show['empresa'] = mb_strtolower($show['empresa'], 'UTF-8');
 
     $show['avatar'] = get_record_avatar($show['img']);
-    $html .= '<div class="div_resultados_prof"><span><img alt="avatar" class="avatar" src="' . $show['avatar'] . '" /></span><div class="datos_prof">Nombre: ' .
-        $show["nombre"] . ' ' . $show["apellidos"] . '<span style="margin-left:50px;">Cargo: ' . $show["cargo"] . '</span><br>Empresa: ' .
-        $show["empresa"] . '</div><div id="' . $key . '" class="mostrar_mas" onclick="mostrar_modal(' . $key . ')">Mostrar más</div></div>';
+    $html .= '<div class="div_resultados_prof"><div class="avatar"><img alt="avatar" src="' . $show['avatar'] . '" /></div><div class="datos_prof"><span class="nombre">' .
+        $show["nombre"] . ' ' . $show["apellidos"] . '</span><span class="cargo">' . $show["cargo"] . '</span><span class="empresa">' .
+        $show["empresa"] . '</span><span id="' . $key . '" class="mostrar_mas" onclick="mostrar_modal(' . $key . ')">Mostrar más</span></div></div>';
 }
-/*Fin movida chunga*/
 ?>
-<section id="bt_section5fa58e86b011a" class="boldSection gutter inherit" style="background-color:#fbc100;">
-    <div class="port">
-        <div class="boldCell">
-            <div class="boldCellInner">
-                <div class="boldRow ">
-                    <div class="boldRowInner">
-                        <div class="rowItem col-md-12 col-ms-12  btTextLeft inherit" style="background-color: rgba(255, 255, 255, 1);" data-width="12">
-                            <div class="rowItemContent">
-                                <div class="btClear btSeparator bottomSemiSpaced noBorder"><hr></div>
-                                <div class="btText">
-                                    <p>
-                                        <img loading="lazy" class="alignnone wp-image-2104 size-full" src="https://www.eventos-digitales.com/wp-content/uploads/2020/09/Diseno-sin-titulo-19-1.png" alt="Logotipo ARPA 2020 del 26 al 28 de noviembre" srcset="https://www.eventos-digitales.com/wp-content/uploads/2020/09/Diseno-sin-titulo-19-1.png 957w, https://www.eventos-digitales.com/wp-content/uploads/2020/09/Diseno-sin-titulo-19-1-320x52.png 320w, https://www.eventos-digitales.com/wp-content/uploads/2020/09/Diseno-sin-titulo-19-1-768x125.png 768w, https://www.eventos-digitales.com/wp-content/uploads/2020/09/Diseno-sin-titulo-19-1-540x88.png 540w" sizes="(max-width: 957px) 100vw, 957px" width="957" height="156">
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
 <div id="arpa_main_buscador">
     <section class="boldSection topSpaced bottomSemiSpaced gutter inherit">
         <form role="search" method="get" class="search-form">

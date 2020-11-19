@@ -31,6 +31,7 @@ jQuery(document).ready(function() {
 
 function mostrar_modal(profesional_id){
     jQuery('html, body').animate({scrollTop:0}, 'slow');
+    jQuery("html").css("overflow","hidden");
     var sectores = '';
     jQuery(".contenido_popup").html('<p style="text-align:center"><img alt="Buscando" src="../wp-content/themes/eventim_child/img/loadingAnimation.gif"/><br>Buscando</p>');
     jQuery.ajax({
@@ -57,5 +58,6 @@ function mostrar_modal(profesional_id){
 function cerrar_modal(){
     jQuery('#popup').fadeOut('slow');
     jQuery('.popup-overlay').fadeOut('slow');
+    jQuery("html").css("overflow","scroll");
     return false;
 }
