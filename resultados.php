@@ -45,7 +45,7 @@ function tratar_resultados($busqueda, $actividad, $interes, $programa, $entidad,
                 if (strpos(strtoupper($string), strtoupper($busqueda)) !== FALSE) {
                     $coincidences[$result->id] = $result_array->fields_data;
                 }
-                /*Para buscar en los nuevo campos*/
+                /*Movida chunga que debería funcionar para buscar en los nuevo campos*/
                 if ($actividad && (strpos(strtoupper($string), strtoupper($actividad)) !== FALSE)) {
                     /*Para no agregar el registro dos veces*/
                     if(!array_key_exists($result->id, $coincidences)){
@@ -70,6 +70,7 @@ function tratar_resultados($busqueda, $actividad, $interes, $programa, $entidad,
                         $coincidences[$result->id] = $result_array->fields_data;
                     }
                 }
+                /*Fin movida chunga*/
             }
         }
     }
@@ -118,7 +119,8 @@ function format_stand_results($coincidences)
 function search_profesional($id_profesional)
 {
     global $wpdb;
-
+    // Por defecto no hay un resultado
+    $html = 'El profesional no existe';
     $result = $wpdb->get_row("SELECT id, post_content FROM {$wpdb->prefix}posts WHERE post_type = 'erforms_submission' and post_title like '%1888%' and id = {$id_profesional}", OBJECT);
     if ($result) {
         // decodificamos el post_content
@@ -142,7 +144,7 @@ function search_profesional($id_profesional)
                         <div style="margin: 0px;position: relative;top: -25px;">
                             <div class="label_popup">Nombre</div><div class="result_data" id="nombre"><span style="margin-left: 10px;">' . $data['nombre'] . '</div>
                             <div class="label_popup">Apellidos</div><div class="result_data" id="apellidos"><span style="margin-left: 10px;">' . $data['apellidos'] . '</span></div>
-                            <div class="label_popup">Empresa/Institución</div><div class="result_data" id="empresa" style="font-size:14px;"><span style="margin-left: 10px;">' . $data['empresa'] . '</span></div>
+                            <div class="label_popup">Empresa/Institución</div><div class="result_data" id="empresa"><span style="margin-left: 10px;">' . $data['empresa'] . '</span></div>
                             <div class="label_popup">Cargo</div><div class="result_data" id="cargo"><span style="margin-left: 10px;">' . $data['cargo'] . '</span></div>
                             <div class="label_popup">Email</div><div class="result_data" id="otro_cargo"><span style="margin-left: 10px;">' . $data['email'] . '</span></div>
                             <div class="label_popup">Sector de actividad</div><div class="result_data" id="sector_actividad"><span style="margin-left: 10px;">' . $data['sector_actividad'] . '</span></div>

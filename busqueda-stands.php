@@ -75,10 +75,10 @@ foreach ($coincidences as $key => $coincidence) {
                     <option value="AR&amp;PA Innovación">AR&amp;PA Innovación</option>
                 </select>
             </label>
-            <input type="submit" name="search-submit" class="search-submit arpa_submit" value="<?php echo esc_attr_x('Buscar', 'submit button') ?>"/>
+            <i class="fas fa-search buscar_icon"></i><input type="submit" name="search-submit" class="search-submit arpa_submit" value="<?php echo esc_attr_x('Buscar', 'submit button') ?>"/>
         </form>
         <div id="parent_results">
-            <div id="mostrar" class="rowItem col-md-7 col-sm-12 btTextLeft inherit">
+            <div id="mostrar" class="rowItem btTextLeft inherit">
                 <?php echo $html; ?>
             </div>
         </div>

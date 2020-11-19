@@ -12,8 +12,12 @@ Template: eventim
 }
 
 /*Búsqueda*/
+
+.search-form{
+    text-align: center;
+}
 .arpa_busqueda_nombre{
-    width:30% !important;
+    width:20% !important;
     margin-bottom: 20px;
     margin-left:20px;
     color:#404040 !important;
@@ -23,7 +27,7 @@ Template: eventim
 }
 
 .arpa_busqueda_select{
-    width:20% !important;
+    width:15% !important;
     height: 50px;
     margin-bottom: 20px;
     margin-left:20px;
@@ -38,9 +42,27 @@ Template: eventim
     margin-left: 20px;
     font-family: "Roboto", Black !important;
     color: #404040 !important;
-    background-color: #f5a81a  !important;
+    background-color: #f5a81a !important;
     display: inline-block !important;
+    font-weight: bold !important;
+}
 
+.buscar_icon{
+    display:none !important;
+}
+
+@media (min-width: 320px) and (max-width: 750px){
+    .arpa_submit{
+        width: 40px !important;
+        margin-left:10px;
+        color: #f5a81a !important;
+    }
+
+    .buscar_icon{
+        position:relative;
+        left: 38px;
+        display:inline !important;
+    }
 }
 
 .arpa_submit:hover{
@@ -119,10 +141,22 @@ Template: eventim
 
 /*Estilos stands*/
 .div_resultados_stands{
-    margin: 10px;
+    margin: 20px;
+    padding:10px;
     width: 200px;
     display: inline-block;
     font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    font-family: "Roboto", Light !important;
+}
+
+@media (min-width: 320px) and (max-width: 750px){
+    .div_resultados_stands{
+        margin:0 auto;
+        display: block;
+        text-align: center;
+    }
 }
 
 .avatar_stands{
@@ -178,6 +212,7 @@ Template: eventim
     width:750px;
     overflow-y: scroll;
     overflow-x: hidden;
+    font-family: "Roboto", Light !important;
 }
 
 .label_popup{
@@ -186,18 +221,18 @@ Template: eventim
     width:190px;
     margin:5px;
     display: inline-block;
-
+    font-family: "Roboto", Black !important;
 }
 
 .result_data{
     background-color: #a0bbd5;
     width: 480px;
-    height: 35px;
     display: inline-block;
-    vertical-align: middle;
+    vertical-align: baseline;
     margin-bottom: 10px;
     border-radius: 20px;
     text-transform: capitalize;
+    font-family: "Roboto", Light !important;
 }
 
 .content-popup textarea{

@@ -101,7 +101,7 @@ foreach ($coincidences as $key => $coincidence) {
                 <option value="Gestión Cultural">Gestión Cultural</option>
 
             </select>
-            <input type="submit" name="search-submit" class="search-submit arpa_submit" value="<?php echo esc_attr_x('Buscar', 'submit button') ?>"/>
+            <i class="fas fa-search buscar_icon"></i><input type="submit" name="search-submit" class="search-submit arpa_submit" value="<?php echo esc_attr_x('Buscar', 'submit button') ?>"/>
         </form>
         <div id="parent_results">
             <div id="mostrar" class="rowItem col-md-6 col-sm-12 btTextLeft inherit">
