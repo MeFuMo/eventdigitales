@@ -47,9 +47,11 @@ function tratar_resultados($busqueda, $actividad, $interes, $programa, $entidad,
                 $nombre_completo = $searchable_array['nombre'] . ' ' . $searchable_array['apellidos'];
                 if ($busqueda) {
                     /*Para buscar por nombre y apellidos*/
-                    $format_nombre = clean_url_text($nombre_completo, $url);
-                    if ($busqueda && strpos(strtoupper($format_nombre), strtoupper($format_busqueda)) !== FALSE) {
-                        $coincidences[$result->id] = $result_array->fields_data;
+                    if (strlen($nombre_completo) > 1) {
+                        $format_nombre = clean_url_text($nombre_completo, $url);
+                        if ($busqueda && strpos(strtoupper($format_nombre), strtoupper($format_busqueda)) !== FALSE) {
+                            $coincidences[$result->id] = $result_array->fields_data;
+                        }
                     }
                     /*Para el resto de campos*/
                     $format_texto = clean_url_text($string, $url);
@@ -57,7 +59,6 @@ function tratar_resultados($busqueda, $actividad, $interes, $programa, $entidad,
                         $coincidences[$result->id] = $result_array->fields_data;
                     }
                 }
-
                 /*Para buscar en los nuevos campos desplegables*/
                 if ($actividad && (strpos(strtoupper($string), strtoupper($actividad)) !== FALSE)) {
                     /*Para no agregar el registro dos veces*/
@@ -118,7 +119,7 @@ function format_stand_results($coincidences)
         $show = stand_array_prepare($coincidence);
         $avatar = get_record_avatar($show['stand_logo']);
 
-        $url_stand = clean_url_text($show['stand_nombre'], $url);
+        $url = clean_url_text($show['stand_nombre'], $url);
 
         $html .= '<div class="div_resultados_stands"><div><a href="../arpa-feria/'.$url.'" title="' . $show["stand_nombre"] . '">'.
             '<img class="avatar_stands" alt="'. $show["stand_nombre"] . '" src="' . $avatar . '" /></a></div>'.
