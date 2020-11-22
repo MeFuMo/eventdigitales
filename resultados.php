@@ -118,7 +118,7 @@ function format_stand_results($coincidences)
         $show = stand_array_prepare($coincidence);
         $avatar = get_record_avatar($show['stand_logo']);
 
-        $url = clean_url_text($show['stand_nombre'], $url);
+        $url_stand = clean_url_text($show['stand_nombre'], $url);
 
         $html .= '<div class="div_resultados_stands"><div><a href="../arpa-feria/'.$url.'" title="' . $show["stand_nombre"] . '">'.
             '<img class="avatar_stands" alt="'. $show["stand_nombre"] . '" src="' . $avatar . '" /></a></div>'.
