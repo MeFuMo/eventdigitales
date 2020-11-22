@@ -37,7 +37,7 @@ foreach ($coincidences as $key => $coincidence) {
 
     $url_stand = clean_url_text($show['stand_nombre'], $url);
 
-    $html .= '<div class="div_resultados_stands"><div><a href="../arpa-feria/'.$url.'" title="' . $show["stand_nombre"] . '">'.
+    $html .= '<div class="div_resultados_stands"><div><a href="../arpa-feria/'.$url_stand.'" title="' . $show["stand_nombre"] . '">'.
         '<img class="avatar_stands" alt="'. $show["stand_nombre"] . '" src="' . $avatar . '" /></a></div>'.
         '<div><p>' . $show['stand_nombre'] . '</p></div></div>';
     if ($num_stand % 4 == 0) {
