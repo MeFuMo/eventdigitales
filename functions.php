@@ -230,8 +230,8 @@ function clean_url_text($cadena, $url = false){
 
     //Eliminamos signos de puntuación
     $cadena = str_replace(
-        array(':', '.', ',', ';', "'", '(', ')', '¡', '!' , '?', '¿'),
-        array('', '', '', '', '', '', '', '', '', '', ''),
+        array(':', '.', ',', ';', "'", '(', ')', '¡', '!' , '?', '¿', '+','&','amp'),
+        array('', '', '', '', '', '', '', '', '', '', '','','',''),
         $cadena
     );
 
