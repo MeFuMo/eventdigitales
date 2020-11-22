@@ -69,11 +69,12 @@ Template: eventim
     cursor:pointer;
 }
 
-.error{
+.warning{
     width:750px;
     padding: 15px;
-    border: 5px solid red;
-    background-color: lightcoral;
+    border: 5px solid #f5a81a;
+    background-color: lightyellow;
+    font-family: "Roboto", Light !important;
 }
 
 /*Estilos profesionales*/
@@ -115,14 +116,14 @@ Template: eventim
 .cargo{
     margin-left: 10px;
     display: block;
-    font-family: "Roboto", Light !important;
+    font-family: "Roboto", Medium Italic !important;
     color:#404040 !important;
 }
 
 .empresa{
     margin-left: 10px;
     display: block;
-    font-family: "Roboto", Medium Italic !important;
+    font-family: "Roboto", Light !important;
     color:#404040 !important;
     text-transform: capitalize;
 }
@@ -142,7 +143,6 @@ Template: eventim
 /*Estilos stands*/
 .div_resultados_stands{
     margin: 20px;
-    padding:10px;
     width: 200px;
     display: inline-block;
     font-size: 12px;
@@ -162,6 +162,12 @@ Template: eventim
 .avatar_stands{
     width:200px;
     height: 200px;
+}
+
+.div_resultados_stands p{
+    display: flex;
+    flex-direction: column;
+    line-height: 1.4 !important;
 }
 
 

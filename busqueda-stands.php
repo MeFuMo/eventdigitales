@@ -29,6 +29,7 @@ foreach ($results as $result) {
     }
 }
 $num_stand = 0;
+
 foreach ($coincidences as $key => $coincidence) {
     $num_stand++;
     $show = stand_array_prepare($coincidence);
@@ -36,9 +37,9 @@ foreach ($coincidences as $key => $coincidence) {
 
     $url = clean_url_text($show['stand_nombre']);
 
-    $html .= '<div class="div_resultados_stands"><a href="../arpa-feria/'.$url.'" title="' . $show["stand_nombre"] . '">'.
-        '<img class="avatar_stands" alt="'. $show["stand_nombre"] . '" src="' . $avatar . '" /></a>'.
-        '<br>' . $show['stand_nombre'] . '</div>';
+    $html .= '<div class="div_resultados_stands"><div><a href="../arpa-feria/'.$url.'" title="' . $show["stand_nombre"] . '">'.
+        '<img class="avatar_stands" alt="'. $show["stand_nombre"] . '" src="' . $avatar . '" /></a></div>'.
+        '<div><p>' . $show['stand_nombre'] . '</p></div></div>';
     if ($num_stand % 4 == 0) {
         $html = $html . '<br>';
     }
@@ -65,7 +66,7 @@ foreach ($coincidences as $key => $coincidence) {
                     <option value="Empresa de servicios">Empresa de servicios</option>
                     <option value="Otro">Otro</option>
                 </select>
-                <select class="arpa_busqueda_select" name="select_entidad" id="select_entidad">
+                <select class="arpa_busqueda_select" name="select_programa" id="select_programa">
                     <option value="">Elija programa</option>
                     <option value="AR&amp;PA Instituciones">AR&amp;PA Instituciones</option>
                     <option value="AR&amp;PA Negocio">AR&amp;PA Negocio</option>

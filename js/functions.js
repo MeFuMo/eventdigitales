@@ -6,6 +6,9 @@ jQuery(document).ready(function() {
         var interes = jQuery('#select_interes').val();
         var entidad = jQuery('#select_entidad').val();
         var programa = jQuery('#select_programa').val();
+        if (programa){
+            programa = programa.replace('&', '&amp;');
+        }
         var modo = jQuery('#modo').val();
         jQuery("#mostrar").html('<p style="text-align:center"><img alt="Buscando" src="../wp-content/themes/eventim_child/img/loadingAnimation.gif"/><br>Buscando</p>');
         jQuery.ajax({
@@ -21,6 +24,11 @@ jQuery(document).ready(function() {
             },
             type: 'POST',
             success: function (data) {
+                jQuery('#s').val('');
+                jQuery('#select_actividad').val('');
+                jQuery('#select_interes').val('');
+                jQuery('#select_entidad').val('');
+                jQuery('#select_programa').val('');
                 jQuery("#mostrar").html('');
                 jQuery("#mostrar").append(data);
                 jQuery('#s').val('');

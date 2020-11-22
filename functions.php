@@ -67,7 +67,7 @@ function recoger_form()
     $modo = $_POST['modo'];
 
     // Por defecto los resultados están vacíos
-    $html = '<div class="error">No hay resultados para la búsqueda</div>';
+    $html = '<div class="warning">No hay resultados para la búsqueda</div>';
 
     // estas funciones están en resultados.php
     $coincidences = tratar_resultados($busqueda, $actividad, $interes, $programa, $entidad, $modo);
@@ -109,9 +109,6 @@ function array_search_prepare($array)
             case 'field-SrYGGSOjVPMD6x9';
                 $search_array['cargo'] = $values->f_val;
                 break;
-            case 'field-6c5pMGRjtLbDWY1';
-                $search_array['perfilprof'] = $values->f_val;
-                break;
             case 'field-qf0eWawUTEF1uB8';
                 $search_array['descint'] = $values->f_val;
                 break;
@@ -144,6 +141,12 @@ function array_search_prepare($array)
                 break;
             case 'field-2ozDegS8qIUOmrN';
                 $search_array['stand_asociaciones'] = $values->f_val;
+                break;
+            case 'field-R0uGutwILmX5mX4';
+                $search_array['stand_programa'] = $values->f_val;
+                break;
+            case 'field-Tg2DBc7q8SqBvux';
+                $search_array['stand_entidad'] = $values->f_val;
                 break;
         }
     }
@@ -179,9 +182,13 @@ function get_record_avatar($id)
     return $return;
 }
 /*Eliminar tildes y caracteres especiales del nombre para generar las URLs de los stands*/
-function clean_url_text($cadena){
+function clean_url_text($cadena, $url = false){
 
     $cadena = mb_strtolower($cadena, 'UTF-8');
+
+    if (strpos($cadena, 'moleiro')){
+        $cadena = 'm. moleiro - el arte de la perfección';
+    }
 
     //Reemplazamos la A y a
     $cadena = str_replace(
@@ -228,13 +235,21 @@ function clean_url_text($cadena){
         $cadena
     );
 
-    $cadena = str_replace('/','-',$cadena);
+    if ($url) {
+        $cadena = str_replace('/','-',$cadena);
 
-    $cadena = str_replace(' - ',' ',$cadena);
+        $cadena = str_replace('_','-',$cadena);
 
-    $cadena = trim($cadena);
+        $cadena = str_replace(' - ',' ',$cadena);
 
-    $cadena = str_replace(' ','-',$cadena);
+        $cadena = str_replace('"','',$cadena);
+
+        $cadena = trim($cadena);
+
+        $cadena = str_replace(' ','-',$cadena);
+
+        $cadena = rtrim($cadena, '-');
+    }
 
     return $cadena;
 }

@@ -36,16 +36,29 @@ function tratar_resultados($busqueda, $actividad, $interes, $programa, $entidad,
         $searchable_array = array_search_prepare($result_array->fields_data);
         // si hay alguna coincidencia
         // guardamos el resultado para mostrar
-        if (!$busqueda) {
+        if (!$busqueda && !$actividad && !$interes && !$entidad && !$programa) {
             foreach ($searchable_array as $index => $string) {
                 $coincidences[$result->id] = $result_array->fields_data;
             }
         } else {
+            $url = false;
+            $format_busqueda = clean_url_text($busqueda, $url);
             foreach ($searchable_array as $index => $string) {
-                if (strpos(strtoupper($string), strtoupper($busqueda)) !== FALSE) {
-                    $coincidences[$result->id] = $result_array->fields_data;
+                $nombre_completo = $searchable_array['nombre'] . ' ' . $searchable_array['apellidos'];
+                if ($busqueda) {
+                    /*Para buscar por nombre y apellidos*/
+                    $format_nombre = clean_url_text($nombre_completo, $url);
+                    if ($busqueda && strpos(strtoupper($format_nombre), strtoupper($format_busqueda)) !== FALSE) {
+                        $coincidences[$result->id] = $result_array->fields_data;
+                    }
+                    /*Para el resto de campos*/
+                    $format_texto = clean_url_text($string, $url);
+                    if ($busqueda && strpos(strtoupper($format_texto), strtoupper($format_busqueda)) !== FALSE) {
+                        $coincidences[$result->id] = $result_array->fields_data;
+                    }
                 }
-                /*Movida chunga que debería funcionar para buscar en los nuevo campos*/
+
+                /*Para buscar en los nuevos campos desplegables*/
                 if ($actividad && (strpos(strtoupper($string), strtoupper($actividad)) !== FALSE)) {
                     /*Para no agregar el registro dos veces*/
                     if(!array_key_exists($result->id, $coincidences)){
@@ -70,7 +83,7 @@ function tratar_resultados($busqueda, $actividad, $interes, $programa, $entidad,
                         $coincidences[$result->id] = $result_array->fields_data;
                     }
                 }
-                /*Fin movida chunga*/
+                /*Fin buscar en otros campos*/
             }
         }
     }
@@ -99,16 +112,17 @@ function format_stand_results($coincidences)
 {
     $html = '';
     $num_stand = 0;
+    $url = true;
     foreach ($coincidences as $key => $coincidence) {
         $num_stand++;
         $show = stand_array_prepare($coincidence);
         $avatar = get_record_avatar($show['stand_logo']);
 
-        $url = clean_url_text($show['stand_nombre']);
+        $url = clean_url_text($show['stand_nombre'], $url);
 
-        $html .= '<div class="div_resultados_stands"><a href="../arpa-feria/'.$url.'" title="' . $show["stand_nombre"] . '">'.
-        '<img class="avatar_stands" alt="'. $show["stand_nombre"] . '" src="' . $avatar . '" /></a>'.
-        '<br>' . $show['stand_nombre'] . '</div>';
+        $html .= '<div class="div_resultados_stands"><div><a href="../arpa-feria/'.$url.'" title="' . $show["stand_nombre"] . '">'.
+            '<img class="avatar_stands" alt="'. $show["stand_nombre"] . '" src="' . $avatar . '" /></a></div>'.
+            '<div><p>' . $show['stand_nombre'] . '</p></div></div>';
         if ($num_stand % 4 == 0) {
             $html = $html . '<br>';
         }
@@ -120,7 +134,7 @@ function search_profesional($id_profesional)
 {
     global $wpdb;
     // Por defecto no hay un resultado
-    $html = 'El profesional no existe';
+    $html = '<div class="warning">El profesional no existe</div>';
     $result = $wpdb->get_row("SELECT id, post_content FROM {$wpdb->prefix}posts WHERE post_type = 'erforms_submission' and post_title like '%1888%' and id = {$id_profesional}", OBJECT);
     if ($result) {
         // decodificamos el post_content
