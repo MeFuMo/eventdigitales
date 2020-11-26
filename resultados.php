@@ -14,6 +14,7 @@ function tratar_resultados($busqueda, $actividad, $interes, $programa, $entidad,
     }
     if ($programa) {
         $programa = sanitize_text_field($programa);
+        $programa = str_replace('&amp;', '&', $programa);
     }
     if ($entidad) {
         $entidad = sanitize_text_field($entidad);
@@ -72,7 +73,7 @@ function tratar_resultados($busqueda, $actividad, $interes, $programa, $entidad,
                         $coincidences[$result->id] = $result_array->fields_data;
                     }
                 }
-                if ($programa && (strpos(strtoupper($string), strtoupper($programa)) !== FALSE)) {
+                if ($programa && (strpos(strtoupper(str_replace('&amp;', '&', $string)), strtoupper($programa)) !== FALSE)) {
                     /*Para no agregar el registro dos veces*/
                     if(!array_key_exists($result->id, $coincidences)){
                         $coincidences[$result->id] = $result_array->fields_data;
@@ -100,10 +101,13 @@ function format_professional_results($coincidences)
         $show['apellidos'] = mb_strtolower($show['apellidos'], 'UTF-8');
         $show['nombre'] = mb_strtolower($show['nombre'], 'UTF-8');
         $show['empresa'] = mb_strtolower($show['empresa'], 'UTF-8');
+        $show['cargo'] = str_replace ('O', 'o', $show['cargo']);
+        $array_cargo = explode('/',$show['cargo']);
+        $cargo = trim($array_cargo[0]);
 
         $show['avatar'] = get_record_avatar($show['img']);
         $html .= '<div class="div_resultados_prof"><div class="avatar"><img alt="avatar" src="' . $show['avatar'] . '" /></div><div class="datos_prof"><span class="nombre">' .
-            $show["nombre"] . ' ' . $show["apellidos"] . '</span><span class="cargo">' . $show["cargo"] . '</span><span class="empresa">' .
+            $show["nombre"] . ' ' . $show["apellidos"] . '</span><span class="cargo">' . $cargo . '</span><span class="empresa">' .
             $show["empresa"] . '</span><span id="' . $key . '" class="mostrar_mas" onclick="mostrar_modal(' . $key . ')">Mostrar más</span></div></div>';
     }
     return $html;
@@ -151,6 +155,10 @@ function search_profesional($id_profesional)
         $data['apellidos'] = mb_strtolower($data['apellidos'], 'UTF-8');
         $data['nombre'] = mb_strtolower($data['nombre'], 'UTF-8');
         $data['empresa'] = mb_strtolower($data['empresa'], 'UTF-8');
+        $data['cargo'] = str_replace ('O', 'o', $data['cargo']);
+        $array_cargo = explode('/',$data['cargo']);
+        $cargo = trim($array_cargo[0]);
+
 
         $html = '<div id="avatar_prof">
                             <img src="' . $data['avatar'] . '" class="avatar_prof" alt="avatar">
@@ -160,7 +168,7 @@ function search_profesional($id_profesional)
                             <div class="label_popup">Nombre</div><div class="result_data" id="nombre"><span style="margin-left: 10px;">' . $data['nombre'] . '</div>
                             <div class="label_popup">Apellidos</div><div class="result_data" id="apellidos"><span style="margin-left: 10px;">' . $data['apellidos'] . '</span></div>
                             <div class="label_popup">Empresa/Institución</div><div class="result_data" id="empresa"><span style="margin-left: 10px;">' . $data['empresa'] . '</span></div>
-                            <div class="label_popup">Cargo</div><div class="result_data" id="cargo"><span style="margin-left: 10px;">' . $data['cargo'] . '</span></div>
+                            <div class="label_popup">Cargo</div><div class="result_data" id="cargo"><span style="margin-left: 10px;">' . $cargo . '</span></div>
                             <div class="label_popup">Email</div><div class="result_data" id="otro_cargo"><span style="margin-left: 10px;">' . $data['email'] . '</span></div>
                             <div class="label_popup">Sector de actividad</div><div class="result_data" id="sector_actividad"><span style="margin-left: 10px;">' . $data['sector_actividad'] . '</span></div>
                             <div class="label_popup">Perfil Profesional</div><textarea disabled rows="5" cols="30" readonly id="perfil">' . $data['perfilprof'] . '</textarea>

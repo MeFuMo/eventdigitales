@@ -36,13 +36,43 @@ foreach ($coincidences as $key => $coincidence) {
     $show['nombre'] = mb_strtolower($show['nombre'], 'UTF-8');
     $show['empresa'] = mb_strtolower($show['empresa'], 'UTF-8');
 
+    $show['cargo'] = str_replace ('O', 'o', $show['cargo']);
+    $array_cargo = explode('/',$show['cargo']);
+    $cargo = trim($array_cargo[0]);
+
     $show['avatar'] = get_record_avatar($show['img']);
     $html .= '<div class="div_resultados_prof"><div class="avatar"><img alt="avatar" src="' . $show['avatar'] . '" /></div><div class="datos_prof"><span class="nombre">' .
-        $show["nombre"] . ' ' . $show["apellidos"] . '</span><span class="cargo">' . $show["cargo"] . '</span><span class="empresa">' .
+        $show["nombre"] . ' ' . $show["apellidos"] . '</span><span class="cargo">' . $cargo . '</span><span class="empresa">' .
         $show["empresa"] . '</span><span id="' . $key . '" class="mostrar_mas" onclick="mostrar_modal(' . $key . ')">Mostrar más</span></div></div>';
 }
 ?>
-<div id="arpa_main_buscador">
+    <div data-elementor-type="wp-page" data-elementor-id="3719" class="elementor elementor-3719" data-elementor-settings="[]" style="background-color:white;">
+        <div class="elementor-inner">
+            <div class="elementor-section-wrap">
+                <section class="elementor-section elementor-top-section elementor-element elementor-element-e7e6742 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="e7e6742" data-element_type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+                    <div class="elementor-background-overlay"></div>
+                    <div class="elementor-container elementor-column-gap-extended">
+                        <div class="elementor-row">
+                            <div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-b3d971d" data-id="b3d971d" data-element_type="column" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+                                <div class="elementor-column-wrap elementor-element-populated">
+                                    <div class="elementor-widget-wrap">
+                                        <div class="elementor-element elementor-element-5cd8f77 elementor-widget__width-inherit elementor-widget elementor-widget-image" data-id="5cd8f77" data-element_type="widget" data-widget_type="image.default">
+                                            <div class="elementor-widget-container">
+                                                <div class="elementor-image">
+                                                    <img src="https://www.eventos-digitales.com/wp-content/uploads/2020/11/secciones_profesionales-1200x382.jpg" class="attachment-large size-large" alt="" loading="lazy" srcset="https://www.eventos-digitales.com/wp-content/uploads/2020/11/secciones_profesionales-1200x382.jpg 1200w, https://www.eventos-digitales.com/wp-content/uploads/2020/11/secciones_profesionales-320x102.jpg 320w, https://www.eventos-digitales.com/wp-content/uploads/2020/11/secciones_profesionales-768x245.jpg 768w, https://www.eventos-digitales.com/wp-content/uploads/2020/11/secciones_profesionales-1536x490.jpg 1536w, https://www.eventos-digitales.com/wp-content/uploads/2020/11/secciones_profesionales-2048x653.jpg 2048w, https://www.eventos-digitales.com/wp-content/uploads/2020/11/secciones_profesionales-540x172.jpg 540w" sizes="(max-width: 1200px) 100vw, 1200px" width="1200" height="382">											</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <div id="arpa_main_buscador">
     <section class="boldSection topSpaced bottomSemiSpaced gutter inherit">
         <form role="search" method="get" class="search-form">
             <label>

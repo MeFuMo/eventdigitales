@@ -238,6 +238,8 @@ function clean_url_text($cadena, $url = false){
     if ($url) {
         $cadena = str_replace('/','-',$cadena);
 
+        $cadena = str_replace('-|-','-',$cadena);
+
         $cadena = str_replace('_','-',$cadena);
 
         $cadena = str_replace(' - ',' ',$cadena);
@@ -253,106 +255,3 @@ function clean_url_text($cadena, $url = false){
 
     return $cadena;
 }
-
-// ------------------ añadido emilio 20201122 19:09 ----------------------
-
-
-add_action('wp_footer','login_chatrocket');
-
-
-
-
-function login_chatrocket()
-{
-
-    define('REST_API_ROOT', '/api/v1/');
-    define('ROCKET_CHAT_INSTANCE', 'https://chatrocket.eventos-digitales.com');
-
-    $admin = new \RocketChat\User('adminrocket', 'eventosrocket2021');
-    $admin->login();
-
-    $wp_user = wp_get_current_user();
-    $wp_user_id = isset( $wp_user->ID ) ? (int) $wp_user->ID : 0 ;
-
-    // $wp_user_id = 147; // sara
-
-    if ($wp_user_id > 0)
-    {
-
-        $wp_user_info = get_userdata($wp_user_id);
-        $wp_user_nicename = $wp_user_info->user_nicename;
-        $wp_user_email = $wp_user_info->user_email;
-        $wp_user_display_name = clean_url_text($wp_user_info->display_name);
-
-        $wp_user_display_name = strtolower($wp_user_display_name);
-        $user_name_a = explode(' ', $wp_user_display_name);
-        $user_name = implode('-', $user_name_a);
-        $user_email = $wp_user_email;
-    } else {
-
-        $user_name = 'visitante';
-        $user_email = 'e.visitante@yopmail.com';
-    }
-
-    $user_pass = 'WXxylpfyS.R4vPMQjDXEXVuufwm0';
-
-    $newuser = new \RocketChat\User($user_name , $user_pass , array(
-        'nickname' => $user_name,
-        'email' => $user_email,
-        'roles' => array('guest')
-    ));
-
-    if( !$newuser->login(false) ) {
-        $newuser->create();
-        sleep(2);
-    }
-
-
-    $user = new \RocketChat\User($user_name, $user_pass);
-    $user->login();
-    sleep(3);
-
-    ?>
-
-    <!--
-						<?php
-
-    echo "<br>"."wp_user_id: ". $wp_user_id;
-    echo "<br>"."wp username: ". $user_name;
-    echo "<br>"."newuser authtoken: ".$newuser->authToken;
-    echo "<br>"."user authtoken: ".$user->authToken;
-    // echo "<br>"."admin authtoken: ".$admin->authToken;
-    echo '<br>';
-    // var_dump($wp_user_info);
-    ?>
-						-->
-
-    <script type="text/javascript">
-
-        function authenticateIFrame() {
-            document.getElementById('arpa_stand_canal_chat').contentWindow.postMessage({
-                externalCommand: 'login-with-token',
-                token: '<?php echo $user->authToken; ?>'
-            }, '*');
-        }
-
-        window.onload = function () {
-            authenticateIFrame();
-        };
-
-    </script>
-
-    <!--
-							<script type="text/javascript">
-							      window.parent.postMessage({
-							        event: 'login-with-token',
-							        loginToken: '<?php echo $user->authToken; ?>'
-							      }, '*');
-
-							</script>
--->
-
-    <?php
-
-}
-

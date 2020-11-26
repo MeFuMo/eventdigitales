@@ -45,7 +45,37 @@ foreach ($coincidences as $key => $coincidence) {
     }
 }
 ?>
-<div id="arpa_main_buscador">
+    <div data-elementor-type="wp-page" data-elementor-id="4642" class="elementor elementor-4642" data-elementor-settings="[]" style="background-color:white;">
+        <div class="elementor-inner">
+            <div class="elementor-section-wrap">
+                <section class="elementor-section elementor-top-section elementor-element elementor-element-e7e6742 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="e7e6742" data-element_type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+                    <div class="elementor-background-overlay"></div>
+                    <div class="elementor-container elementor-column-gap-extended">
+                        <div class="elementor-row">
+                            <div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-b3d971d" data-id="b3d971d" data-element_type="column" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+                                <div class="elementor-column-wrap elementor-element-populated">
+                                    <div class="elementor-widget-wrap">
+                                        <div class="elementor-element elementor-element-5cd8f77 elementor-widget__width-inherit elementor-widget elementor-widget-image" data-id="5cd8f77" data-element_type="widget" data-widget_type="image.default">
+                                            <div class="elementor-widget-container">
+                                                <div class="elementor-image">
+                                                    <img src="https://www.eventos-digitales.com/wp-content/uploads/elementor/thumbs/secciones_feria-scaled-oyarfcrpu7ym0omb6ykpzakwf2atx3i5yfbd583sso.jpg" title="secciones_feria" alt="secciones_feria">
+                                                </div>
+                                                <div class="elementor-image">
+                                                    <a href="https://www.eventos-digitales.com/arpa-feria/junta-de-castilla-y-leon/"><img src="https://www.eventos-digitales.com/wp-content/uploads/2020/11/Stand_JCyL.jpg" title="stand_JCyL" alt="stand_JCyL"></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <div id="arpa_main_buscador">
     <section class="boldSection topSpaced bottomSemiSpaced gutter inherit">
         <form role="search" method="get" class="search-form">
             <label>
